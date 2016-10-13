@@ -1,4 +1,6 @@
-var express = require('express');
+var express = require('express'),
+    crypto = require('crypto'),
+    User = require('../models/user.js');
 
 module.exports = function (app) {
 
@@ -11,7 +13,14 @@ module.exports = function (app) {
     });
 
     app.post('/reg', function (req, res) {
+        var name = req.body.name,
+            password = req.body.password,
+            password_re = req.body['password-repeat'];
 
+        if (password !== password_re) {
+            req.flash('error', '两次密码不一致');
+            return res.redirect('/reg');
+        }
     });
 
     app.get('/login', function (req, res) {
