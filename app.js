@@ -5,7 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
 var routes = require('./routes/index');
+var settings = require('./settings');
 
 var app = express();
 
@@ -53,6 +57,17 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+app.use(session({
+    secret: settings.cookieSecret,
+    key: settings.db,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},
+    store: new MongoStore({
+        db: settings.db,
+        host: settings.host,
+        post: settings.post
+    })
+}));
 
 
 module.exports = app;
