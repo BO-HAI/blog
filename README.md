@@ -36,3 +36,19 @@ Error: req.flash() requires sessions
     at Function.process_params (/Users/bohai/myProject/blog/node_modules/express/lib/router/index.js:330:12)
     at next (/Users/bohai/myProject/blog/node_modules/express/lib/router/index.js:271:10)
 ```
+
+注意顺序
+```
+app.use(session({
+    secret: settings.cookieSecret,
+    key: settings.db,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},
+    store: new MongoStore({
+        db: settings.db,
+        host: settings.host,
+        post: settings.post
+    })
+}));
+app.use(flash());
+```
+
