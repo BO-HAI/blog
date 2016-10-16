@@ -52,3 +52,31 @@ app.use(session({
 app.use(flash());
 ```
 
+##### 3.Error: Error setting TTL index on collection : sessions
+
+mongodb版本问题
+
+在package.json修改 "mongodb"：“2.0.42”， “connect-mongo”:“0.8.2” 运行npm install安装模块,打开app.js，添加以下代码：
+```
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+  secret: settings.cookieSecret,
+  key: settings.db,//cookie name
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+  store: new MongoStore({
+    db: settings.db,
+    host: settings.host,
+    port: settings.port
+  })
+}));
+```
+
+##### 4.process.nextTick(function() { throw err; })
+
+在注册时插入数据不是，collection.insert ，而是collection.insertOne;
+
+请参考这个：
+
+https://github.com/mongodb/node-mongodb-native/blob/0642f18fd85037522acf2e7560148a8bc5429a8a/docs/content/tutorials/changes-from-1.0.md#L38

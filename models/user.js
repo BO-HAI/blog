@@ -38,7 +38,7 @@ User.prototype.save = function (callback) {
                 return callback(err);
             }
 
-            collection.inster(user, {
+            collection.insertOne(user, {
                 safe: true
             }, function (err, user) {
                 mongodb.close();
@@ -58,7 +58,7 @@ User.prototype.save = function (callback) {
  * @param name
  * @param callback
  */
-User.prototype.get = function (name, callback) {
+User.get = function (name, callback) {
 
     // 打开数据
     mongodb.open(function (err, db) {
