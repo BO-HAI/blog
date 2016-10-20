@@ -126,15 +126,21 @@ module.exports = function (app) {
     app.post('/post', (req, res) => {
 
         var currentUser = req.session.user,
-            post = new Post(currentUser, req.body.title, req.body.post);
+            post = new Post(currentUser.name, req.body.title, req.body.post);
 
         post.save(function (err) {
             if (err) {
-                res.flash('error', err);
+                console.log('============LOG==============');
+                console.log(err);
+                console.log('============end==============');
+                req.flash('error', err);
                 return res.redirect('/');
             }
+            console.log('============LOG==============');
+            console.log(err);
+            console.log('============end==============');
 
-            res.flash('success', '发布成功！');
+            req.flash('success', '发布成功！');
             res.redirect('/');
         });
     });
