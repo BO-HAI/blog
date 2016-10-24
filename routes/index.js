@@ -1,7 +1,7 @@
 var express = require('express'),
     crypto = require('crypto'),
     User = require('../models/user.js'),
-    Post = require('../models/Post.js');
+    Post = require('../models/post.js');
 
 module.exports = function (app) {
 
