@@ -1,7 +1,7 @@
 var express = require('express'),
     crypto = require('crypto'),
     User = require('../models/user.js'),
-    Post = require('../models/post2.js');
+    Post = require('../models/post.js');
 
 module.exports = function (app) {
 
@@ -130,16 +130,9 @@ module.exports = function (app) {
 
         post.save(function (err) {
             if (err) {
-                console.log('============LOG==============');
-                console.log(err);
-                console.log('============end==============');
                 req.flash('error', err);
                 return res.redirect('/');
             }
-            console.log('============LOG==============');
-            console.log(err);
-            console.log('============end==============');
-
             req.flash('success', '发布成功！');
             res.redirect('/');
         });
